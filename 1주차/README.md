@@ -255,3 +255,61 @@ Server:
    Base: 192.168.247.0/24, Size: 24
    Base: fd07:b51a:cc66:d000::/56, Size: 64
 ```
+
+# Docker 기본 운영 명령 수행
+
+```
+bdn9805615@c4r2s3 ~ % docker pull ubuntu
+Using default tag: latest
+latest: Pulling from library/ubuntu
+ed819469700f: Pull complete 
+a3679419df18: Pull complete 
+Digest: sha256:3131b4cc82a783df6c9df078f86e01819a13594b865c2cad47bd1bca2b7063bb
+Status: Downloaded newer image for ubuntu:latest
+docker.io/library/ubuntu:latest
+```
+```
+bdn9805615@c4r2s3 ~ % docker images
+REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
+ubuntu       latest    de7345b16e94   2 weeks ago   100MB
+```
+
+```
+bdn9805615@c4r2s3 ~ % docker container ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+```
+
+```
+bdn9805615@c4r2s3 ~ % docker container ps -a
+CONTAINER ID   IMAGE     COMMAND       CREATED          STATUS                      PORTS     NAMES
+7461312cbc65   ubuntu    "/bin/bash"   26 seconds ago   Exited (0) 25 seconds ago             confident_hypatia
+ca492e5ab6ac   ubuntu    "/bin/bash"   3 minutes ago    Exited (0) 3 minutes ago              beautiful_jemison
+```
+
+```
+bdn9805615@c4r2s3 ~ % docker run --name test ubuntu
+bdn9805615@c4r2s3 ~ % docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+bdn9805615@c4r2s3 ~ % docker ps -a
+CONTAINER ID   IMAGE     COMMAND       CREATED          STATUS                      PORTS     NAMES
+3e37f8bd2bdf   ubuntu    "/bin/bash"   22 seconds ago   Exited (0) 21 seconds ago             test
+7461312cbc65   ubuntu    "/bin/bash"   7 minutes ago    Exited (0) 7 minutes ago              confident_hypatia
+ca492e5ab6ac   ubuntu    "/bin/bash"   10 minutes ago   Exited (0) 10 minutes ago             beautiful_jemison
+```
+
+```
+bdn9805615@c4r2s3 ~ % docker stop container test
+test
+```
+
+```
+bdn9805615@c4r2s3 ~ % docker logs test 
+```
+
+```
+bdn9805615@c4r2s3 ~ % docker stats test
+
+CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT   MEM %     NET I/O   BLOCK I/O   PIDS 
+3e37f8bd2bdf   test      0.00%     0B / 0B             0.00%     0B / 0B   0B / 0B     0 
+```
+
