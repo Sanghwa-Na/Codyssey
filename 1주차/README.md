@@ -89,12 +89,12 @@ total 0
 drwxr-xr-x  2 bdn9805615  bdn9805615  64  7 28 17:08 test3
 ```
 
-'''
+```
 bdn9805615@c4r2s3 test % ls -l
 total 0
 --w-------  1 bdn9805615  bdn9805615   0  7 28 17:36 test.md
 drwxr-xr-x  2 bdn9805615  bdn9805615  64  7 28 17:08 test3
-'''
+```
 
 ```
 bdn9805615@c4r2s3 test % chmod -w test.md 
