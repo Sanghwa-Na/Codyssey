@@ -20,47 +20,56 @@
 - [x] Git 설정 + VSCode GitHub 연동
 
 # 수행 로그
-''' bdn9805615@c4r2s3 Codyssey % pwd 
-/Users/bdn9805615/Documents/Codyssey '''
-''' bdn9805615@c4r2s3 Codyssey % ls -a 
- .		..		.git		1주차		README.md '''
-'''
+``` bdn9805615@c4r2s3 Codyssey % pwd 
+/Users/bdn9805615/Documents/Codyssey ```
+
+``` bdn9805615@c4r2s3 Codyssey % ls -a 
+ .		..		.git		1주차		README.md ```
+
+```
 bdn9805615@c4r2s3 ~ % ls  
 Desktop		Downloads	Movies		Pictures
 Documents	Library		Music		Public
 bdn9805615@c4r2s3 ~ % cd Documents 
-'''
-'''
+```
+
+```
 bdn9805615@c4r2s3 Documents % mkdir test
 bdn9805615@c4r2s3 Documents % ls
 Codyssey	test
-'''
-'''
+```
+
+```
 bdn9805615@c4r2s3 test % touch test.md
 bdn9805615@c4r2s3 test % ls
 test.md	test3
-'''
-'''
+```
+
+```
 bdn9805615@c4r2s3 test % cp test.md test3
 bdn9805615@c4r2s3 test % cd test3 
 bdn9805615@c4r2s3 test3 % ls
 test.md
-'''
-'''
+```
+
+```
 bdn9805615@c4r2s3 test % mv test.md test3
 bdn9805615@c4r2s3 test % ls
 test3
-'''
-'''
+```
+
+```
 bdn9805615@c4r2s3 test3 % cat test.md 
 test%  
-'''
-'''
+```
+
+```
 bdn9805615@c4r2s3 test3 % rm test.md 
 bdn9805615@c4r2s3 test3 % ls
-'''
-'''
+```
+
+```
 bdn9805615@c4r2s3 Documents % rm -r test2
 bdn9805615@c4r2s3 Documents % ls
 Codyssey	test
-'''
+```
