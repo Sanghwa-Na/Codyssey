@@ -128,3 +128,26 @@ d--x--x--x  2 bdn9805615  bdn9805615  64  7 28 17:08 test3
 원인 : 내 정보 등록 안해서 주소 못찾는듯
 해결 : git config user.name, git config user.email 등록 
 ```
+
+# Git 설정 및 Github 연동
+
+```
+bdn9805615@c4r2s3 Codyssey % git config --list
+credential.helper=osxkeychain
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+core.ignorecase=true
+core.precomposeunicode=true
+remote.origin.url=https://github.com/Sanghwa-Na/Codyssey.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.main.remote=origin
+branch.main.merge=refs/heads/main
+branch.main.vscode-merge-base=origin/main
+user.name=Sanghwa-Na
+user.email=bdn980@gmail.com
+```
+
+<img src="github.png" width="200" height="200"/>
+
