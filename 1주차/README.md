@@ -20,11 +20,15 @@
 - [x] Git 설정 + VSCode GitHub 연동
 
 # 수행 로그
-``` bdn9805615@c4r2s3 Codyssey % pwd 
-/Users/bdn9805615/Documents/Codyssey ```
+
+``` 
+bdn9805615@c4r2s3 Codyssey % pwd 
+/Users/bdn9805615/Documents/Codyssey 
+```
 
 ``` bdn9805615@c4r2s3 Codyssey % ls -a 
- .		..		.git		1주차		README.md ```
+ .		..		.git		1주차		README.md 
+ ```
 
 ```
 bdn9805615@c4r2s3 ~ % ls  
