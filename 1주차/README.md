@@ -20,6 +20,7 @@
 - [x] Git 설정 + VSCode GitHub 연동
 
 # 수행 로그
+터미널 조작
 
 ``` 
 bdn9805615@c4r2s3 Codyssey % pwd 
@@ -77,4 +78,53 @@ bdn9805615@c4r2s3 test3 % ls
 bdn9805615@c4r2s3 Documents % rm -r test2
 bdn9805615@c4r2s3 Documents % ls
 Codyssey	test
+```
+
+권한 실습
+
+```
+bdn9805615@c4r2s3 test % ls -l
+total 0
+-rw-r--r--  1 bdn9805615  bdn9805615   0  7 28 17:36 test.md
+drwxr-xr-x  2 bdn9805615  bdn9805615  64  7 28 17:08 test3
+```
+
+'''
+bdn9805615@c4r2s3 test % ls -l
+total 0
+--w-------  1 bdn9805615  bdn9805615   0  7 28 17:36 test.md
+drwxr-xr-x  2 bdn9805615  bdn9805615  64  7 28 17:08 test3
+'''
+
+```
+bdn9805615@c4r2s3 test % chmod -w test.md 
+bdn9805615@c4r2s3 test % ls -l
+total 0
+----------  1 bdn9805615  bdn9805615   0  7 28 17:36 test.md
+drwxr-xr-x  2 bdn9805615  bdn9805615  64  7 28 17:08 test3
+```
+
+```
+bdn9805615@c4r2s3 test % chmod -r test3
+bdn9805615@c4r2s3 test % ls -l
+total 0
+----------  1 bdn9805615  bdn9805615   0  7 28 17:36 test.md
+d-wx--x--x  2 bdn9805615  bdn9805615  64  7 28 17:08 test3
+bdn9805615@c4r2s3 test %  chmod -w test3
+bdn9805615@c4r2s3 test % ls -l
+total 0
+----------  1 bdn9805615  bdn9805615   0  7 28 17:36 test.md
+d--x--x--x  2 bdn9805615  bdn9805615  64  7 28 17:08 test3
+```
+# 권한 의미
+- 소유자, 그룹, 기타 사용자
+- 읽기 r=4, 쓰기 w=2, 실행 x=1
+- 755 (모든, 읽기실행, 읽기실행) 소유자 모든 권한 타인은 읽고실행만, 644 (읽기쓰기, 읽기, 읽기) 소유자 읽고실행만 타인은 읽기만
+
+# 트러블 슈팅
+
+```
+문제 : git push시 발생함 : src refspec master does not match any 
+원인 : 내 정보 등록 안해서 주소 못찾는듯
+해결 : git config user.name, git config user.email 등록 
 ```
