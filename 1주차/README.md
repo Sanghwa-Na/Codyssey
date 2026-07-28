@@ -367,3 +367,36 @@ root@a72efda5d53f:/# echo hello docker
 hello docker
 ```
 
+```
+bdn9805615@c4r2s3 ~ % docker exec dazzling_williams ls
+bin
+boot
+dev
+etc
+home
+lib
+lib64
+media
+mnt
+opt
+proc
+root
+run
+sbin
+srv
+sys
+tmp
+usr
+var
+```
+
+```
+bdn9805615@c4r2s3 ~ % docker attach dazzling_williams                          
+    
+root@a72efda5d53f:/# ls
+bin   dev  home  lib64  mnt  proc  run   srv  tmp  var
+boot  etc  lib   media  opt  root  sbin  sys  usr
+```
+
+- attach : 실행 중인 컨테이너에 접속, exec : 접속 하지 않고 외부에서 결과 확인
+
