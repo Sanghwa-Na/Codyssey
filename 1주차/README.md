@@ -26,7 +26,8 @@ bdn9805615@c4r2s3 Codyssey % pwd
 /Users/bdn9805615/Documents/Codyssey 
 ```
 
-``` bdn9805615@c4r2s3 Codyssey % ls -a 
+``` 
+bdn9805615@c4r2s3 Codyssey % ls -a 
  .		..		.git		1주차		README.md 
  ```
 
