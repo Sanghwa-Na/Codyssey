@@ -171,7 +171,7 @@ user.email=email@gmail.com
 email@c4r2s3 ~ % docker --version
 Docker version 28.5.2, build ecc6942
 ```
-
+ 
 ```
 email@c4r2s3 ~ % docker info
 Client:
