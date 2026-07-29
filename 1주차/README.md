@@ -116,6 +116,7 @@ total 0
 ----------  1 bdn9805615  bdn9805615   0  7 28 17:36 test.md
 d--x--x--x  2 bdn9805615  bdn9805615  64  7 28 17:08 test3
 ```
+
 # 권한 의미
 - 소유자, 그룹, 기타 사용자
 - 읽기 r=4, 쓰기 w=2, 실행 x=1
@@ -132,6 +133,13 @@ d--x--x--x  2 bdn9805615  bdn9805615  64  7 28 17:08 test3
 ```
 문제 : docker run -it ubuntu bash 로 컨테이너 진입후 나가는 방법 모르겠음
 해결 : 컨테이너 종료하고 나올땐 ctrl + d, 유지하고 싶을땐 ctrl + p > q 순서대로
+```
+
+```
+문제 : docker build -t my-nginx:v1 실행시 // ERROR: docker: 'docker buildx build' requires 1 argument
+Usage:  docker buildx build [OPTIONS] PATH | URL | - // 발생
+원인 : PATH 못찾는거 같다
+해결 : 마지막에 . 빠짐 ( 상대경로로 현재 경로 명시 )
 ```
 # Git 설정 및 Github 연동
 
@@ -400,3 +408,79 @@ boot  etc  lib   media  opt  root  sbin  sys  usr
 
 - attach : 실행 중인 컨테이너에 접속, exec : 접속 하지 않고 외부에서 결과 확인
 
+# 커스텀 Dockerfile 제작 실습
+
+```
+bdn9805615@c4r2s3 my-nginx % touch Dockerfile
+bdn9805615@c4r2s3 my-nginx % vim Dockerfile 
+```
+```
+# 1. 베이스 이미지 선택 (공식 NGINX 이미지)
+FROM nginx:latest
+
+# 2. 이미지 메타정보 추가
+LABEL maintainer="your-name"
+LABEL description="커스텀 NGINX 웹 서버"
+
+# 3. 기본 HTML 파일을 내가 만든 파일로 교체
+#    NGINX의 기본 웹 루트 경로: /usr/share/nginx/html/
+COPY app/index.html /usr/share/nginx/html/index.html
+
+# 4. 컨테이너가 사용할 포트 명시 (문서화 목적)
+EXPOSE 80
+```
+
+```
+bdn9805615@c4r2s3 my-nginx % docker build -t my-nginx:v1 .
+
+중략 
+=> [2/2] COPY app/index.html /usr/share/nginx/html/index.html             0.4s
+ => exporting to image                                                     0.2s
+ => => exporting layers                                                    0.1s
+ => => writing image sha256:68a6e61882f13575bb004b2f40f58dc3835044dc88111  0.0s
+ => => naming to docker.io/library/my-nginx:v1    
+
+```
+
+```
+bdn9805615@c4r2s3 my-nginx % docker run -d \
+  --name my-nginx-container \
+  -p 8080:80 \
+  my-nginx:v1
+aedafd9a09699f89d034f0f16a8ad21fd5382aae80a010da572c418a9c685314
+
+bdn9805615@c4r2s3 my-nginx % docker ps
+CONTAINER ID   IMAGE         COMMAND                   CREATED          STATUS          PORTS                                     NAMES
+aedafd9a0969   my-nginx:v1   "/docker-entrypoint.…"   21 seconds ago   Up 21 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   my-nginx-container
+```
+
+빌드 명령 및 결과 ( 포트 매핑 및 접속 증거 )
+```
+bdn9805615@c4r2s3 my-nginx % curl http://localhost:8080
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>My Custom NGINX</title>
+</head>
+<body>
+  <h1>🚀 나의 커스텀 웹 서버입니다!</h1>
+  <p>Docker + NGINX로 만든 첫 번째 컨테이너</p>
+</body>
+</html>
+```
+
+<img src="docker.png" width="200" height="200"/>
+
+
+- 선택한 베이스 이미지 및 이유 
+   nginx 사용이유 : 간편한게 hello world 용으로 딱임
+
+-  커스텀 포인트 각각의 목적 설명
+   touch, vim 으로 터미널에서 파일 만들고 커스텀 페이지 작성함
+
+   bdn9805615@c4r2s3 my-nginx % docker build -t my-nginx:v1 . # :v1 으로 버전관리함
+
+   --name 으로 직관적인 이름 붙임
+
+    -p 8080:80, 8080 포트 사용하는 내 컴퓨터를 80포트 사용하는 컨테이너에 매핑
