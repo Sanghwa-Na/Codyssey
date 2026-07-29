@@ -25,98 +25,98 @@
 터미널 조작
 
 ``` 
-bdn9805615@c4r2s3 Codyssey % pwd 
-/Users/bdn9805615/Documents/Codyssey 
+email@c4r2s3 Codyssey % pwd 
+/Users/email/Documents/Codyssey 
 ```
 
 ``` 
-bdn9805615@c4r2s3 Codyssey % ls -a 
+email@c4r2s3 Codyssey % ls -a 
  .		..		.git		1주차		README.md 
  ```
 
 ```
-bdn9805615@c4r2s3 ~ % ls  
+email@c4r2s3 ~ % ls  
 Desktop		Downloads	Movies		Pictures
 Documents	Library		Music		Public
-bdn9805615@c4r2s3 ~ % cd Documents 
+email@c4r2s3 ~ % cd Documents 
 ```
 
 ```
-bdn9805615@c4r2s3 Documents % mkdir test
-bdn9805615@c4r2s3 Documents % ls
+email@c4r2s3 Documents % mkdir test
+email@c4r2s3 Documents % ls
 Codyssey	test
 ```
 
 ```
-bdn9805615@c4r2s3 test % touch test.md
-bdn9805615@c4r2s3 test % ls
+email@c4r2s3 test % touch test.md
+email@c4r2s3 test % ls
 test.md	test3
 ```
 
 ```
-bdn9805615@c4r2s3 test % cp test.md test3
-bdn9805615@c4r2s3 test % cd test3 
-bdn9805615@c4r2s3 test3 % ls
+email@c4r2s3 test % cp test.md test3
+email@c4r2s3 test % cd test3 
+email@c4r2s3 test3 % ls
 test.md
 ```
 
 ```
-bdn9805615@c4r2s3 test % mv test.md test3
-bdn9805615@c4r2s3 test % ls
+email@c4r2s3 test % mv test.md test3
+email@c4r2s3 test % ls
 test3
 ```
 
 ```
-bdn9805615@c4r2s3 test3 % cat test.md 
+email@c4r2s3 test3 % cat test.md 
 test%  
 ```
 
 ```
-bdn9805615@c4r2s3 test3 % rm test.md 
-bdn9805615@c4r2s3 test3 % ls
+email@c4r2s3 test3 % rm test.md 
+email@c4r2s3 test3 % ls
 ```
 
 ```
-bdn9805615@c4r2s3 Documents % rm -r test2
-bdn9805615@c4r2s3 Documents % ls
+email@c4r2s3 Documents % rm -r test2
+email@c4r2s3 Documents % ls
 Codyssey	test
 ```
 
 권한 실습
 
 ```
-bdn9805615@c4r2s3 test % ls -l
+email@c4r2s3 test % ls -l
 total 0
--rw-r--r--  1 bdn9805615  bdn9805615   0  7 28 17:36 test.md
-drwxr-xr-x  2 bdn9805615  bdn9805615  64  7 28 17:08 test3
+-rw-r--r--  1 email  email   0  7 28 17:36 test.md
+drwxr-xr-x  2 email  email  64  7 28 17:08 test3
 ```
 
 ```
-bdn9805615@c4r2s3 test % ls -l
+email@c4r2s3 test % ls -l
 total 0
---w-------  1 bdn9805615  bdn9805615   0  7 28 17:36 test.md
-drwxr-xr-x  2 bdn9805615  bdn9805615  64  7 28 17:08 test3
+--w-------  1 email  email   0  7 28 17:36 test.md
+drwxr-xr-x  2 email  email  64  7 28 17:08 test3
 ```
 
 ```
-bdn9805615@c4r2s3 test % chmod -w test.md 
-bdn9805615@c4r2s3 test % ls -l
+email@c4r2s3 test % chmod -w test.md 
+email@c4r2s3 test % ls -l
 total 0
-----------  1 bdn9805615  bdn9805615   0  7 28 17:36 test.md
-drwxr-xr-x  2 bdn9805615  bdn9805615  64  7 28 17:08 test3
+----------  1 email  email   0  7 28 17:36 test.md
+drwxr-xr-x  2 email  email  64  7 28 17:08 test3
 ```
 
 ```
-bdn9805615@c4r2s3 test % chmod -r test3
-bdn9805615@c4r2s3 test % ls -l
+email@c4r2s3 test % chmod -r test3
+email@c4r2s3 test % ls -l
 total 0
-----------  1 bdn9805615  bdn9805615   0  7 28 17:36 test.md
-d-wx--x--x  2 bdn9805615  bdn9805615  64  7 28 17:08 test3
-bdn9805615@c4r2s3 test %  chmod -w test3
-bdn9805615@c4r2s3 test % ls -l
+----------  1 email  email   0  7 28 17:36 test.md
+d-wx--x--x  2 email  email  64  7 28 17:08 test3
+email@c4r2s3 test %  chmod -w test3
+email@c4r2s3 test % ls -l
 total 0
-----------  1 bdn9805615  bdn9805615   0  7 28 17:36 test.md
-d--x--x--x  2 bdn9805615  bdn9805615  64  7 28 17:08 test3
+----------  1 email  email   0  7 28 17:36 test.md
+d--x--x--x  2 email  email  64  7 28 17:08 test3
 ```
 
 # 권한 의미
@@ -146,7 +146,7 @@ Usage:  docker buildx build [OPTIONS] PATH | URL | - // 발생
 # Git 설정 및 Github 연동
 
 ```
-bdn9805615@c4r2s3 Codyssey % git config --list
+email@c4r2s3 Codyssey % git config --list
 credential.helper=osxkeychain
 core.repositoryformatversion=0
 core.filemode=true
@@ -160,7 +160,7 @@ branch.main.remote=origin
 branch.main.merge=refs/heads/main
 branch.main.vscode-merge-base=origin/main
 user.name=Sanghwa-Na
-user.email=bdn980@gmail.com
+user.email=email@gmail.com
 ```
 
 <img src="github.png" width="200" height="200"/>
@@ -168,12 +168,12 @@ user.email=bdn980@gmail.com
 # Docker 설치 및 기본점검
 
 ```
-bdn9805615@c4r2s3 ~ % docker --version
+email@c4r2s3 ~ % docker --version
 Docker version 28.5.2, build ecc6942
 ```
 
 ```
-bdn9805615@c4r2s3 ~ % docker info
+email@c4r2s3 ~ % docker info
 Client:
  Version:    28.5.2
  Context:    orbstack
@@ -181,10 +181,10 @@ Client:
  Plugins:
   buildx: Docker Buildx (Docker Inc.)
     Version:  v0.29.1
-    Path:     /Users/bdn9805615/.docker/cli-plugins/docker-buildx
+    Path:     /Users/email/.docker/cli-plugins/docker-buildx
   compose: Docker Compose (Docker Inc.)
     Version:  v2.40.3
-    Path:     /Users/bdn9805615/.docker/cli-plugins/docker-compose
+    Path:     /Users/email/.docker/cli-plugins/docker-compose
 
 Server:
  Containers: 0
@@ -273,7 +273,7 @@ Server:
 # Docker 기본 운영 명령 수행
 
 ```
-bdn9805615@c4r2s3 ~ % docker pull ubuntu
+email@c4r2s3 ~ % docker pull ubuntu
 Using default tag: latest
 latest: Pulling from library/ubuntu
 ed819469700f: Pull complete 
@@ -283,28 +283,28 @@ Status: Downloaded newer image for ubuntu:latest
 docker.io/library/ubuntu:latest
 ```
 ```
-bdn9805615@c4r2s3 ~ % docker images
+email@c4r2s3 ~ % docker images
 REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
 ubuntu       latest    de7345b16e94   2 weeks ago   100MB
 ```
 
 ```
-bdn9805615@c4r2s3 ~ % docker container ps
+email@c4r2s3 ~ % docker container ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 
 ```
-bdn9805615@c4r2s3 ~ % docker container ps -a
+email@c4r2s3 ~ % docker container ps -a
 CONTAINER ID   IMAGE     COMMAND       CREATED          STATUS                      PORTS     NAMES
 7461312cbc65   ubuntu    "/bin/bash"   26 seconds ago   Exited (0) 25 seconds ago             confident_hypatia
 ca492e5ab6ac   ubuntu    "/bin/bash"   3 minutes ago    Exited (0) 3 minutes ago              beautiful_jemison
 ```
 
 ```
-bdn9805615@c4r2s3 ~ % docker run --name test ubuntu
-bdn9805615@c4r2s3 ~ % docker ps
+email@c4r2s3 ~ % docker run --name test ubuntu
+email@c4r2s3 ~ % docker ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
-bdn9805615@c4r2s3 ~ % docker ps -a
+email@c4r2s3 ~ % docker ps -a
 CONTAINER ID   IMAGE     COMMAND       CREATED          STATUS                      PORTS     NAMES
 3e37f8bd2bdf   ubuntu    "/bin/bash"   22 seconds ago   Exited (0) 21 seconds ago             test
 7461312cbc65   ubuntu    "/bin/bash"   7 minutes ago    Exited (0) 7 minutes ago              confident_hypatia
@@ -312,16 +312,16 @@ ca492e5ab6ac   ubuntu    "/bin/bash"   10 minutes ago   Exited (0) 10 minutes ag
 ```
 
 ```
-bdn9805615@c4r2s3 ~ % docker stop container test
+email@c4r2s3 ~ % docker stop container test
 test
 ```
 
 ```
-bdn9805615@c4r2s3 ~ % docker logs test 
+email@c4r2s3 ~ % docker logs test 
 ```
 
 ```
-bdn9805615@c4r2s3 ~ % docker stats test
+email@c4r2s3 ~ % docker stats test
 
 CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT   MEM %     NET I/O   BLOCK I/O   PIDS 
 3e37f8bd2bdf   test      0.00%     0B / 0B             0.00%     0B / 0B   0B / 0B     0 
@@ -330,7 +330,7 @@ CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT   MEM %     NET I/O   BLOCK
 # 컨테이너 실행 실습
  
 ```
-bdn9805615@c4r2s3 ~ % docker run hello-world
+email@c4r2s3 ~ % docker run hello-world
 Unable to find image 'hello-world:latest' locally
 latest: Pulling from library/hello-world
 4f55086f7dd0: Pull complete 
@@ -361,7 +361,7 @@ For more examples and ideas, visit:
 ```
 
 ```
-bdn9805615@c4r2s3 ~ % docker images hello-world
+email@c4r2s3 ~ % docker images hello-world
 REPOSITORY    TAG       IMAGE ID       CREATED        SIZE
 hello-world   latest    e2ac70e7319a   4 months ago   10.1kB
 ```
@@ -378,7 +378,7 @@ hello docker
 ```
 
 ```
-bdn9805615@c4r2s3 ~ % docker exec dazzling_williams ls
+email@c4r2s3 ~ % docker exec dazzling_williams ls
 bin
 boot
 dev
@@ -401,7 +401,7 @@ var
 ```
 
 ```
-bdn9805615@c4r2s3 ~ % docker attach dazzling_williams                          
+email@c4r2s3 ~ % docker attach dazzling_williams                          
     
 root@a72efda5d53f:/# ls
 bin   dev  home  lib64  mnt  proc  run   srv  tmp  var
@@ -413,8 +413,8 @@ boot  etc  lib   media  opt  root  sbin  sys  usr
 # 커스텀 Dockerfile 제작 실습
 
 ```
-bdn9805615@c4r2s3 my-nginx % touch Dockerfile
-bdn9805615@c4r2s3 my-nginx % vim Dockerfile 
+email@c4r2s3 my-nginx % touch Dockerfile
+email@c4r2s3 my-nginx % vim Dockerfile 
 ```
 ```
 1. 베이스 이미지 선택 (공식 NGINX 이미지)
@@ -433,7 +433,7 @@ EXPOSE 80
 ```
 
 ```
-bdn9805615@c4r2s3 my-nginx % docker build -t my-nginx:v1 .
+email@c4r2s3 my-nginx % docker build -t my-nginx:v1 .
 
 중략 
 => [2/2] COPY app/index.html /usr/share/nginx/html/index.html             0.4s
@@ -445,20 +445,20 @@ bdn9805615@c4r2s3 my-nginx % docker build -t my-nginx:v1 .
 ```
 
 ```
-bdn9805615@c4r2s3 my-nginx % docker run -d \
+email@c4r2s3 my-nginx % docker run -d \
   --name my-nginx-container \
   -p 8080:80 \
   my-nginx:v1
 aedafd9a09699f89d034f0f16a8ad21fd5382aae80a010da572c418a9c685314
 
-bdn9805615@c4r2s3 my-nginx % docker ps
+email@c4r2s3 my-nginx % docker ps
 CONTAINER ID   IMAGE         COMMAND                   CREATED          STATUS          PORTS                                     NAMES
 aedafd9a0969   my-nginx:v1   "/docker-entrypoint.…"   21 seconds ago   Up 21 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   my-nginx-container
 ```
 
 빌드 명령 및 결과 ( 포트 매핑 및 접속 증거 )
 ```
-bdn9805615@c4r2s3 my-nginx % curl http://localhost:8080
+email@c4r2s3 my-nginx % curl http://localhost:8080
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -481,7 +481,7 @@ bdn9805615@c4r2s3 my-nginx % curl http://localhost:8080
 -  커스텀 포인트 각각의 목적 설명
    touch, vim 으로 터미널에서 파일 만들고 커스텀 페이지 작성함
 
-   bdn9805615@c4r2s3 my-nginx % docker build -t my-nginx:v1 . # :v1 으로 버전관리함
+   email@c4r2s3 my-nginx % docker build -t my-nginx:v1 . # :v1 으로 버전관리함
 
    --name 으로 직관적인 이름 붙임
 
@@ -507,16 +507,16 @@ bdn9805615@c4r2s3 my-nginx % curl http://localhost:8080
 볼륨 생성
 
 ```
-bdn9805615@c4r2s3 test % docker volume create my-web-volume
+email@c4r2s3 test % docker volume create my-web-volume
 my-web-volume
-bdn9805615@c4r2s3 test % docker volume ls
+email@c4r2s3 test % docker volume ls
 DRIVER    VOLUME NAME
 local     my-web-volume
 ```
 볼륨 연결하여 컨테이너 실행
 
 ```
-bdn9805615@c4r2s3 test % docker run -d \
+email@c4r2s3 test % docker run -d \
   --name volume-test \
   -p 8081:80 \
   -v my-web-volume:/usr/share/nginx/html \
@@ -524,7 +524,7 @@ bdn9805615@c4r2s3 test % docker run -d \
 
 a62c450~ 이 볼륨 연결한 컨테이너
 
-bdn9805615@c4r2s3 test % docker ps
+email@c4r2s3 test % docker ps
 CONTAINER ID   IMAGE          COMMAND                   CREATED              STATUS              PORTS                                     NAMES
 a62c4504be73   nginx:latest   "/docker-entrypoint.…"   About a minute ago   Up About a minute   0.0.0.0:8081->80/tcp, [::]:8081->80/tcp   volume-test
 aedafd9a0969   my-nginx:v1    "/docker-entrypoint.…"   52 minutes ago       Up 52 minutes       0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   my-nginx-container
@@ -532,21 +532,21 @@ aedafd9a0969   my-nginx:v1    "/docker-entrypoint.…"   52 minutes ago       Up
 볼륨에 데이터 저장
 
 ```
-bdn9805615@c4r2s3 test % docker exec volume-test \
+email@c4r2s3 test % docker exec volume-test \
   sh -c "echo '볼륨 영속성 테스트 데이터' > /usr/share/nginx/html/test.txt"
 
-bdn9805615@c4r2s3 test % docker exec volume-test cat /usr/share/nginx/html/test.txt
+email@c4r2s3 test % docker exec volume-test cat /usr/share/nginx/html/test.txt
 볼륨 영속성 테스트 데이터
 ```
 
 컨테이너 삭제
 
 ```
-bdn9805615@c4r2s3 test % docker stop volume-test
+email@c4r2s3 test % docker stop volume-test
 volume-test
-bdn9805615@c4r2s3 test % docker rm volume-test
+email@c4r2s3 test % docker rm volume-test
 volume-test
-bdn9805615@c4r2s3 test % docker ps -a
+email@c4r2s3 test % docker ps -a
 CONTAINER ID   IMAGE         COMMAND                   CREATED          STATUS                      PORTS                                     NAMES
 aedafd9a0969   my-nginx:v1   "/docker-entrypoint.…"   58 minutes ago   Up 58 minutes               0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   my-nginx-container
 e7a8ef472cf7   hello-world   "/hello"                  25 hours ago     Exited (0) 25 hours ago                                               gallant_swartz
@@ -571,7 +571,7 @@ docker run -d \
 이전 컨테이너에서 만든 파일이 삭제 되지 않고 그대로 있음
 
 ```
-bdn9805615@c4r2s3 test % docker exec volume-test2 cat /usr/share/nginx/html/test.txt
+email@c4r2s3 test % docker exec volume-test2 cat /usr/share/nginx/html/test.txt
 볼륨 영속성 테스트 데이터
 ```
 
@@ -581,7 +581,7 @@ bdn9805615@c4r2s3 test % docker exec volume-test2 cat /usr/share/nginx/html/test
 ```
 볼륨 정보
 
-bdn9805615@c4r2s3 test % docker volume inspect my-web-volume
+email@c4r2s3 test % docker volume inspect my-web-volume
 [
     {
         "CreatedAt": "2026-07-29T21:17:05+09:00",
