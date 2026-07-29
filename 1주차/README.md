@@ -5,7 +5,7 @@
 - OS : Sequoia 15.7.5
 - Shell : zsh
 - Git : 2.54
-- Docker 
+- Docker : 28.5.2
 - vscode : 1.112.0
 
 # 수행 체크리스트
