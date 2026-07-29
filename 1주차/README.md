@@ -484,3 +484,111 @@ bdn9805615@c4r2s3 my-nginx % curl http://localhost:8080
    --name 으로 직관적인 이름 붙임
 
     -p 8080:80, 8080 포트 사용하는 내 컴퓨터를 80포트 사용하는 컨테이너에 매핑
+
+      # 1. 베이스 이미지 선택 (공식 NGINX 이미지)
+      FROM nginx:latest
+
+      # 2. 이미지 메타정보 추가
+      LABEL maintainer="your-name"
+      LABEL description="커스텀 NGINX 웹 서버"
+
+      # 3. 기본 HTML 파일을 내가 만든 파일로 교체
+      #    NGINX의 기본 웹 루트 경로: /usr/share/nginx/html/
+      COPY app/index.html /usr/share/nginx/html/index.html
+
+      # 4. 컨테이너가 사용할 포트 명시 (문서화 목적)
+      EXPOSE 80
+
+
+# Docker 볼륨 영속성 검증
+
+볼륨 생성
+
+```
+bdn9805615@c4r2s3 test % docker volume create my-web-volume
+my-web-volume
+bdn9805615@c4r2s3 test % docker volume ls
+DRIVER    VOLUME NAME
+local     my-web-volume
+```
+볼륨 연결하여 컨테이너 실행
+
+```
+bdn9805615@c4r2s3 test % docker run -d \
+  --name volume-test \
+  -p 8081:80 \
+  -v my-web-volume:/usr/share/nginx/html \
+  nginx:latest
+
+a62c450~ 이 볼륨 연결한 컨테이너
+
+bdn9805615@c4r2s3 test % docker ps
+CONTAINER ID   IMAGE          COMMAND                   CREATED              STATUS              PORTS                                     NAMES
+a62c4504be73   nginx:latest   "/docker-entrypoint.…"   About a minute ago   Up About a minute   0.0.0.0:8081->80/tcp, [::]:8081->80/tcp   volume-test
+aedafd9a0969   my-nginx:v1    "/docker-entrypoint.…"   52 minutes ago       Up 52 minutes       0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   my-nginx-container
+```
+볼륨에 데이터 저장
+
+```
+bdn9805615@c4r2s3 test % docker exec volume-test \
+  sh -c "echo '볼륨 영속성 테스트 데이터' > /usr/share/nginx/html/test.txt"
+
+bdn9805615@c4r2s3 test % docker exec volume-test cat /usr/share/nginx/html/test.txt
+볼륨 영속성 테스트 데이터
+```
+
+컨테이너 삭제
+
+```
+bdn9805615@c4r2s3 test % docker stop volume-test
+volume-test
+bdn9805615@c4r2s3 test % docker rm volume-test
+volume-test
+bdn9805615@c4r2s3 test % docker ps -a
+CONTAINER ID   IMAGE         COMMAND                   CREATED          STATUS                      PORTS                                     NAMES
+aedafd9a0969   my-nginx:v1   "/docker-entrypoint.…"   58 minutes ago   Up 58 minutes               0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   my-nginx-container
+e7a8ef472cf7   hello-world   "/hello"                  25 hours ago     Exited (0) 25 hours ago                                               gallant_swartz
+a72efda5d53f   ubuntu        "bash"                    26 hours ago     Exited (137) 25 hours ago                                             dazzling_williams
+27e6870451f0   hello-world   "ubuntu bash"             26 hours ago     Created                                                               amazing_pike
+3a24a15ae846   hello-world   "/hello"                  26 hours ago     Exited (0) 26 hours ago                                               confident_lamport
+3e37f8bd2bdf   ubuntu        "/bin/bash"               26 hours ago     Exited (0) 26 hours ago                                               test
+7461312cbc65   ubuntu        "/bin/bash"               26 hours ago     Exited (0) 26 hours ago                                               confident_hypatia
+ca492e5ab6ac   ubuntu        "/bin/bash"               26 hours ago     Exited (0) 26 hours ago                                     
+```
+
+같은 볼륨으로 새 컨테이너 실행
+
+```
+docker run -d \
+  --name volume-test2 \
+  -p 8082:80 \
+  -v my-web-volume:/usr/share/nginx/html \
+  nginx:latest
+```
+
+이전 컨테이너에서 만든 파일이 삭제 되지 않고 그대로 있음
+
+```
+bdn9805615@c4r2s3 test % docker exec volume-test2 cat /usr/share/nginx/html/test.txt
+볼륨 영속성 테스트 데이터
+```
+
+- 볼륨이 없으면 컨테이너 삭제 시 데이터도 삭제됨
+   볼륨이 있으니 삭제해도 데이터가 유지됨
+
+```
+볼륨 정보
+
+bdn9805615@c4r2s3 test % docker volume inspect my-web-volume
+[
+    {
+        "CreatedAt": "2026-07-29T21:17:05+09:00",
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/my-web-volume/_data",
+        "Name": "my-web-volume",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+```
