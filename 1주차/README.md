@@ -487,18 +487,18 @@ bdn9805615@c4r2s3 my-nginx % curl http://localhost:8080
 
     -p 8080:80, 8080 포트 사용하는 내 컴퓨터를 80포트 사용하는 컨테이너에 매핑
 
-      1. 베이스 이미지 선택 (공식 NGINX 이미지)
+   1. 베이스 이미지 선택 (공식 NGINX 이미지)
       FROM nginx:latest
 
-      2. 이미지 메타정보 추가
+   2. 이미지 메타정보 추가
       LABEL maintainer="your-name"
       LABEL description="커스텀 NGINX 웹 서버"
 
-      3. 기본 HTML 파일을 내가 만든 파일로 교체
+   3. 기본 HTML 파일을 내가 만든 파일로 교체
          NGINX의 기본 웹 루트 경로: /usr/share/nginx/html/
       COPY app/index.html /usr/share/nginx/html/index.html
 
-      4. 컨테이너가 사용할 포트 명시 (문서화 목적)
+   4. 컨테이너가 사용할 포트 명시 (문서화 목적)
       EXPOSE 80
 
 
