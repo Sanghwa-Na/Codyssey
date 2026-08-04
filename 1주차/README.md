@@ -594,3 +594,22 @@ email@c4r2s3 test % docker volume inspect my-web-volume
     }
 ]
 ```
+
+# 바인드 마운트 실행
+
+```
+bdn9805615@c4r2s3 Documents % docker run -it --mount type=bind,source="$(pwd)/bindmount",target=/app ubuntu
+
+root@24046e6faec0:/# ls
+app  boot  etc   lib    media  opt   root  sbin  sys  usr
+bin  dev   home  lib64  mnt    proc  run   srv   tmp  var
+
+root@24046e6faec0:/# cat /app/test.txt
+bind moun test
+
+root@24046e6faec0:/# echo "edit from container" >> /app/test.txt
+bdn9805615@c4r2s3 Documents % cat bindmount/test.txt
+bind moun test
+edit from container
+
+```
