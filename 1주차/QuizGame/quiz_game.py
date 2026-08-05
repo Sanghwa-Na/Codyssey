@@ -1,9 +1,14 @@
+import Quiz, json, os
+
+quiz_file = "quizzes.json"
+state_file = "state.json"
+
 class QuizGame:
     def __init__(self):
         self.quizzes = [] # 퀴즈 목록
         self.score = 0 # 점수
-        self.load_quizzes() # 퀴즈 불러오기 quizzes.json
-        self.load_score() # 점수 불러오기 state.json
+        # self.load_quizzes() # 퀴즈 불러오기 quizzes.json
+        # self.load_score() # 점수 불러오기 state.json
     
     def get_default_quizzes(self): # 기본 퀴즈 목록
         return [
@@ -45,11 +50,44 @@ class QuizGame:
         print("5. 종료")
         print("=" * 40)
 
+    def save_quizzes(self):
+        try:
+            with open(quiz_file, 'w', encoding='utf-8') as f:
+                json.dump([quiz.__dict__ for quiz in self.quizzes], f, ensure_ascii=False, indent=4)
+            print("퀴즈가 저장되었습니다.")
+        except Exception as e:
+            print(f"퀴즈 저장 중 오류 발생: {e}")   
+
+    def load_quizzes(self):
+        pass
+
+    def save_state(self):
+        pass
+
+    def load_state(self):
+        pass
+
     def play_quiz(self): # 퀴즈 풀기
         print("퀴즈를 풀어보세요!")
     
     def add_quiz(self): # 퀴즈 추가
         print("퀴즈를 추가하세요!")
+        question = input("문제를 입력하세요: ").strip()
+        choices = []
+        for i in range(4):
+            choice = input(f"선택지 {i+1}를 입력하세요: ").strip()
+            choices.append(choice)
+        while True:
+            answer = input("정답 번호 (1-4)를 입력하세요: ").strip()
+            if answer.isdigit() and 1 <= int(answer) <= 4:
+                answer = int(answer)
+                break
+            else:
+                print("잘못된 입력입니다. 1에서 4 사이의 숫자를 입력해주세요.")
+        new_quiz = Quiz.Quiz(question, choices, answer)
+        self.quizzes.append(new_quiz)
+        self.save_quizzes()  # 퀴즈 저장
+        print("퀴즈가 추가되었습니다.")  
 
     def list_quizzes(self): # 퀴즈 목록
         print("퀴즈 목록을 확인하세요!")
@@ -68,15 +106,15 @@ class QuizGame:
                 print("잘못된 입력입니다. 다시 선택해주세요.")
                 continue 
 
-            if choice == "1":
+            if choice == "1": # 풀기
                 self.play_quiz()
-            elif choice == "2":
+            elif choice == "2": # 추가
                 self.add_quiz()
-            elif choice == "3":
+            elif choice == "3": # 목록
                 self.list_quizzes()
-            elif choice == "4":
+            elif choice == "4": # 확인
                 self.check_score()
-            elif choice == "5":
+            elif choice == "5": # 종료
                 print("게임을 종료합니다.")
                 # self.save_file()
                 break
