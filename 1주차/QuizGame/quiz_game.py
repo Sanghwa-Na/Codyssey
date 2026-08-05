@@ -104,7 +104,16 @@ class QuizGame:
         print("퀴즈가 추가되었습니다.")  
 
     def list_quizzes(self): # 퀴즈 목록
+        if not self.quizzes:
+            print("퀴즈가 없습니다. 퀴즈를 추가해주세요.")
+            return
+        
+        print("=" * 40)
         print("퀴즈 목록을 확인하세요!")
+        print("=" * 40)
+        for i, quiz in enumerate(self.quizzes, start=1):
+            print(f"{i}. {quiz.question}")
+
 
     def check_score(self): # 점수 확인
         print("점수를 확인하세요!")
