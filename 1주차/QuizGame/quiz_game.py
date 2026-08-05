@@ -7,7 +7,7 @@ class QuizGame:
     def __init__(self):
         self.quizzes = [] # 퀴즈 목록
         self.score = 0 # 점수
-        # self.load_quizzes() # 퀴즈 불러오기 quizzes.json
+        self.load_quizzes() # 퀴즈 불러오기 quizzes.json
         # self.load_score() # 점수 불러오기 state.json
     
     def get_default_quizzes(self): # 기본 퀴즈 목록
@@ -59,7 +59,21 @@ class QuizGame:
             print(f"퀴즈 저장 중 오류 발생: {e}")   
 
     def load_quizzes(self):
-        pass
+        if not os.path.exists(quiz_file):
+            self.quizzes = [Quiz.Quiz(**q) for q in self.get_default_quizzes()]
+            self.save_quizzes()
+            return
+
+        try:
+            with open(quiz_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            if isinstance(data, list):
+                self.quizzes = [Quiz.Quiz(**q) for q in data]
+            else:
+                raise ValueError("퀴즈 데이터 형식이 올바르지 않습니다.")
+        except Exception as e:
+            print(f"퀴즈 로드 중 오류 발생: {e}")
+            self.quizzes = []
 
     def save_state(self):
         pass
