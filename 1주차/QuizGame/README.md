@@ -28,8 +28,26 @@ python main.py
 ├── Quiz.py          # Quiz 클래스
 ├── quizzes.json     # 퀴즈 데이터
 ├── state.json       # 최고 점수
+├── menu.png         # 메뉴 화면 스크린샷
+├── play.png         # 퀴즈 플레이 스크린샷
+├── add_quiz.png     # 퀴즈 추가 스크린샷
+├── score.png        # 점수 확인 스크린샷
 └── README.md        # 이 파일
 ```
+
+## 실행 화면 스크린샷
+
+### 1. 메뉴 화면
+![메뉴 화면](menu.png)
+
+### 2. 퀴즈 풀기 화면
+![퀴즈 풀기 화면](play.png)
+
+### 3. 퀴즈 추가 화면
+![퀴즈 추가 화면](add_quiz.png)
+
+### 4. 점수 확인 화면
+![점수 확인 화면](score.png)
 
 ## 데이터 파일 설명
 
