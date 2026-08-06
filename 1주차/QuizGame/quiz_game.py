@@ -83,6 +83,36 @@ class QuizGame:
 
     def play_quiz(self): # 퀴즈 풀기
         print("퀴즈를 풀어보세요!")
+
+        if not self.quizzes:
+            print("퀴즈가 없습니다. 퀴즈를 추가해주세요.")
+            return
+
+        total_quizzes = len(self.quizzes)
+        print("-" * 40)
+        print(f"총 {total_quizzes}개의 퀴즈가 있습니다.")
+        print("-" * 40)
+
+        for i, quiz in enumerate(self.quizzes, start=1):
+            print(f"\n문제 {i}: {quiz.question}")
+            for j, choice in enumerate(quiz.choices, start=1):
+                print(f"{j}. {choice}")
+
+            while True:
+                answer = input("정답 번호를 입력하세요 (1-4): ").strip()
+                if answer.isdigit() and 1 <= int(answer) <= 4:
+                    answer = int(answer)
+                    break
+                else:
+                    print("잘못된 입력입니다. 1에서 4 사이의 숫자를 입력해주세요.")
+
+            if answer == quiz.answer:
+                print("정답입니다!")
+                #self.score += 1
+            else:
+                print(f"틀렸습니다! 정답은 {quiz.answer}번입니다.")
+        
+
     
     def add_quiz(self): # 퀴즈 추가
         print("퀴즈를 추가하세요!")
