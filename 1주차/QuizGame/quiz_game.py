@@ -3,12 +3,14 @@ import Quiz, json, os
 quiz_file = "quizzes.json"
 state_file = "state.json"
 
+
 class QuizGame:
     def __init__(self):
-        self.quizzes = [] # 퀴즈 목록
-        self.score = 0 # 점수
-        self.load_quizzes() # 퀴즈 불러오기 quizzes.json
-        # self.load_score() # 점수 불러오기 state.json
+        self.quizzes = []  # 퀴즈 목록
+        self.best_score = 0  # 점수
+
+        self.load_quizzes()  # 퀴즈 불러오기 quizzes.json
+        self.load_state()  # 점수 불러오기 state.json
     
     def get_default_quizzes(self): # 기본 퀴즈 목록
         return [
@@ -50,7 +52,7 @@ class QuizGame:
         print("5. 종료")
         print("=" * 40)
 
-    def get_input(self, prompt):
+    def get_input(self, prompt): # 입력 시 오류 처리하기위해 
         try:
             return input(prompt).strip()
         except (KeyboardInterrupt, EOFError):
@@ -90,13 +92,38 @@ class QuizGame:
                 print(f"기본 퀴즈 저장 중 오류 발생: {save_e}")
 
     def save_state(self):
-        pass
+        try:
+            with open(state_file, 'w', encoding='utf-8') as f:
+                json.dump({"score": self.best_score}, f, ensure_ascii=False, indent=4)
+            print("점수가 저장되었습니다.")
+            print(f"현재 점수: {self.best_score}")
+        except Exception as e:
+            print(f"점수 저장 중 오류 발생: {e}")
 
     def load_state(self):
-        pass
+        if not os.path.exists(state_file):
+            self.best_score = 0
+            return  
+        try:
+            with open(state_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            if isinstance(data, dict) and 'score' in data:
+                self.best_score = data['score']
+            else:
+                raise ValueError("상태 데이터 형식이 올바르지 않습니다.")
+        except Exception as e:
+            print(f"상태 로드 중 오류 발생: {e}")
+            print("상태 파일이 손상되었거나 형식이 잘못되었습니다. 점수를 초기화합니다.")
+            self.best_score = 0
+            try:
+                self.save_state()
+            except Exception as save_e:
+                print(f"점수 초기화 저장 중 오류 발생: {save_e}")
 
-    def play_quiz(self): # 퀴즈 풀기
+    def play_quiz(self):  # 퀴즈 풀기
         print("퀴즈를 풀어보세요!")
+
+        score = 0
 
         if not self.quizzes:
             print("퀴즈가 없습니다. 퀴즈를 추가해주세요.")
@@ -105,6 +132,8 @@ class QuizGame:
         total_quizzes = len(self.quizzes)
         print("-" * 40)
         print(f"총 {total_quizzes}개의 퀴즈가 있습니다.")
+        print("-" * 40)
+        print(f"BEST SCORE : {self.best_score}")
         print("-" * 40)
 
         for i, quiz in enumerate(self.quizzes, start=1):
@@ -124,23 +153,32 @@ class QuizGame:
 
             if answer == quiz.answer:
                 print("정답입니다!")
-                #self.score += 1
+                score += 1
             else:
                 print(f"틀렸습니다! 정답은 {quiz.answer}번입니다.")
-        
 
-    
-    def add_quiz(self): # 퀴즈 추가
+        if score > self.best_score:
+            self.best_score = score
+            self.save_state()
+            print(f"\n축하합니다! 새로운 최고 점수 {self.best_score}점을 기록했습니다!")
+        else:
+            print(f"\n이번 점수: {score}점. 최고 점수: {self.best_score}점.")   
+
+    def add_quiz(self):  # 퀴즈 추가
         print("퀴즈를 추가하세요!")
+
         question = self.get_input("문제를 입력하세요: ")
         if question is None:
             return
+
         choices = []
+
         for i in range(4):
             choice = self.get_input(f"선택지 {i+1}를 입력하세요: ")
             if choice is None:
                 return
             choices.append(choice)
+
         while True:
             answer = self.get_input("정답 번호 (1-4)를 입력하세요: ")
             if answer is None:
@@ -150,6 +188,7 @@ class QuizGame:
                 break
             else:
                 print("잘못된 입력입니다. 1에서 4 사이의 숫자를 입력해주세요.")
+
         new_quiz = Quiz.Quiz(question, choices, answer)
         self.quizzes.append(new_quiz)
         self.save_quizzes()  # 퀴즈 저장
@@ -168,9 +207,6 @@ class QuizGame:
             
     def check_score(self): # 점수 확인
         print("점수를 확인하세요!")
-    
-    def save_score(self): # 점수 저장
-        print("점수를 저장하세요!") 
     
     def run(self): # 게임 실행
         while True:
@@ -192,7 +228,6 @@ class QuizGame:
                 self.check_score()
             elif choice == "5": # 종료
                 print("게임을 종료합니다.")
-                # self.save_file()
                 break
             else:
                 print("잘못된 입력입니다. 다시 선택해주세요.")
