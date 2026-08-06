@@ -206,6 +206,7 @@ class QuizGame:
             print(f"{i}. {quiz.question}")
             
     def check_score(self): # 점수 확인
+        print("=" * 40)   
         print("점수를 확인하세요!")
         print("=" * 40)      
         print(f"현재 최고 점수: {self.best_score}점")
