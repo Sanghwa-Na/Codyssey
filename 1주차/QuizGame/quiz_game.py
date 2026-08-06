@@ -50,6 +50,13 @@ class QuizGame:
         print("5. 종료")
         print("=" * 40)
 
+    def get_input(self, prompt):
+        try:
+            return input(prompt).strip()
+        except (KeyboardInterrupt, EOFError):
+            print("\n입력이 중단되었습니다. 게임을 종료합니다.")
+            return None
+
     def save_quizzes(self):
         try:
             with open(quiz_file, 'w', encoding='utf-8') as f:
@@ -63,17 +70,24 @@ class QuizGame:
             self.quizzes = [Quiz.Quiz(**q) for q in self.get_default_quizzes()]
             self.save_quizzes()
             return
-
         try:
             with open(quiz_file, 'r', encoding='utf-8') as f:
                 data = json.load(f)
             if isinstance(data, list):
                 self.quizzes = [Quiz.Quiz(**q) for q in data]
             else:
+                # 파일은 존재하지만 예상 형식이 아닌 경우
                 raise ValueError("퀴즈 데이터 형식이 올바르지 않습니다.")
         except Exception as e:
+            # 파일이 비어있거나 JSON 파싱 실패 등 손상된 경우
             print(f"퀴즈 로드 중 오류 발생: {e}")
-            self.quizzes = []
+            print("퀴즈 파일이 손상되었거나 형식이 잘못되었습니다. 기본 퀴즈로 복구합니다.")
+            # 기본 퀴즈로 복원하고 저장
+            self.quizzes = [Quiz.Quiz(**q) for q in self.get_default_quizzes()]
+            try:
+                self.save_quizzes()
+            except Exception as save_e:
+                print(f"기본 퀴즈 저장 중 오류 발생: {save_e}")
 
     def save_state(self):
         pass
@@ -99,7 +113,9 @@ class QuizGame:
                 print(f"{j}. {choice}")
 
             while True:
-                answer = input("정답 번호를 입력하세요 (1-4): ").strip()
+                answer = self.get_input("정답 번호를 입력하세요 (1-4): ")
+                if answer is None:
+                    return
                 if answer.isdigit() and 1 <= int(answer) <= 4:
                     answer = int(answer)
                     break
@@ -116,13 +132,19 @@ class QuizGame:
     
     def add_quiz(self): # 퀴즈 추가
         print("퀴즈를 추가하세요!")
-        question = input("문제를 입력하세요: ").strip()
+        question = self.get_input("문제를 입력하세요: ")
+        if question is None:
+            return
         choices = []
         for i in range(4):
-            choice = input(f"선택지 {i+1}를 입력하세요: ").strip()
+            choice = self.get_input(f"선택지 {i+1}를 입력하세요: ")
+            if choice is None:
+                return
             choices.append(choice)
         while True:
-            answer = input("정답 번호 (1-4)를 입력하세요: ").strip()
+            answer = self.get_input("정답 번호 (1-4)를 입력하세요: ")
+            if answer is None:
+                return
             if answer.isdigit() and 1 <= int(answer) <= 4:
                 answer = int(answer)
                 break
@@ -153,7 +175,9 @@ class QuizGame:
     def run(self): # 게임 실행
         while True:
             self.show_menu()
-            choice = input("메뉴를 선택하세요 (1-5): ").strip()
+            choice = self.get_input("메뉴를 선택하세요 (1-5): ")
+            if choice is None:
+                break
             if not choice.isdigit() or int(choice) < 1 or int(choice) > 5:
                 print("잘못된 입력입니다. 다시 선택해주세요.")
                 continue 
