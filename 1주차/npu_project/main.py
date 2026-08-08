@@ -24,7 +24,7 @@ def mac(pattern, filt): # 같은 자리 다 곱해서 더하기
     return score
 
 def nomalize_label(raw): # 똑같은 의미로 정규화작업
-    table = {'+':Cross, 'x':X, 'cross':Cross}
+    table = {'+':'Cross', 'x':'X', 'cross':'Cross'}
     key = str(raw).strip().lower()
 
     return table.get(key)
