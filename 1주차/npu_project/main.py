@@ -13,7 +13,16 @@ class Matrix:
 
     def get(self, r, c):
         return self.data[r][c]
-    
+ 
+def read_matrix(name, n=3): # 모드 1, n줄 입력 > matrix 만들어 반환
+    print(f"{name} {n}줄 {n}개 입력, 공백구분")
+    while True:
+        rows = []
+        for i in range(n):
+            line = input().strip() # 공백으로 나눔
+            if len(n) != n :
+                print(f"")
+
 def mac(pattern, filt): # 같은 자리 다 곱해서 더하기
     n = pattern.n # 매트릭스.n attr
     score = 0.0 # 합
@@ -40,14 +49,7 @@ def list_to_matrix(arr): # json 리스트를 matrix로 변경
             m.set(r, c, float(arr[r][c])) # 실제 환경에는 소수점 쓰니 flaot)
     return m
 
-def read_matrix(name, n=3): # 모드 1, n줄 입력 > matrix 만들어 반환
-    print(f"{name} {n}줄 {n}개 입력, 공백구분")
-    while True:
-        rows = []
-        for i in range(n):
-            line = input().strip() # 공백으로 나눔
-            if len(n) != n :
-                print(f"")
+
 
 def run_mode_1(): # 사용자입력
     pass
