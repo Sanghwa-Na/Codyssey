@@ -82,9 +82,52 @@ def measure(pattern, filter, repeat = 10): # 성능 측정, mac 반복 수행 �
     return (end - start) / repeat
 
 def run_mode_1(): # 사용자입력
-    pass
+    print("-"*20)
+    print("1. 필터 입력")
+    flit_a = read_matrix("필터A")
+    flit_b = read_matrix("필터B")
+
+    print("-"*20)
+    print("2. 패턴 입력")
+    print*("-"*20)
+    pattern = read_matrix("패턴")
+
+    print("-"*20)
+    print("3. MAC 수행 결과")
+    print("-"*20)
+    score_a = mac(pattern, flit_a)
+    score_b = mac(pattern, flit_b)
+    time = measure(pattern, flit_a)
+
+    print(f"A score : {score_a:.2f}")
+    print("-"*20)
+    print(f"B score : {score_b:.2f}")
+    print("-"*20)
+    print(f"Time : {time:.6f}") # 연산 시간(평균/10회)
+    print("-"*20)
+
+    result = decide_ab(score_a, score_b)
+    if result == "UNDECIDED":
+        print("판정불가")
+    else:
+        print(f"판정 : {result}")   
+
 def run_mode_2(): # json 입력
-    pass
+    try:
+        with open("data.json", "r") as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        print("data.json 파일이 없습니다")
+        return
+
+    print("-"*20)
+    print("1. 필터 로드")
+    print("-"*20)
+    flit = {} #{필터 이름: 필터 매트릭스}
+    for name, matrix_data in data.get("filters", {}).items():
+        flit[name] = list_to_matrix(matrix_data)
+        print(f"{name} 로드 완료")      
+
 def main():
     print("--- mini npu simulator ---")
     print("\n -모드선택-")
