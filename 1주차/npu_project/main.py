@@ -57,18 +57,29 @@ def nomalize_label(raw): # 똑같은 의미로 정규화작업
 
     return table.get(key)
 
-def decide_winner(score1, score2): # 점수 비교
-    if abs(score1 - score2) < EPS:
-        return "Draw"
-    elif score1 > score2:
-        return "Pattern 1 Win"
+def decide_label(score_cross, score_x): # cross, x 점수 비교
+    if abs(score_cross - score_x) < EPS: # 차이가 너무 작으면 판정불가
+        return "UNDECIDED"
+    elif score_cross > score_x:
+        return "Cross"
     else:
-        return "Pattern 2 Win"
+        return "X"
 
+def decide_ab(score_a, score_b): # a, b 점수 비교
+    if abs(score_a - score_b) < EPS: # 차이가 너무 작으면 판정불가
+        return "UNDECIDED"
+    elif score_a > score_b:
+        return "A"
+    else:
+        return "B"
 
+def measure(pattern, filter, repeat = 10): # 성능 측정, mac 반복 수행 후 평균값 반환
+    start = time.time()
+    for i in range(repeat):
+        mac(pattern, filter)
+    end = time.time()
 
-
-
+    return (end - start) / repeat
 
 def run_mode_1(): # 사용자입력
     pass
