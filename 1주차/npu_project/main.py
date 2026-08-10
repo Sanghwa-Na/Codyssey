@@ -124,10 +124,9 @@ def run_mode_2(): # json 입력
     print("1. 필터 로드")
     print("-"*20)
     flit = {} #{필터 이름: 필터 매트릭스}
-    for name, matrix_data in data.get("filters", {}).items():
-        flit[name] = list_to_matrix(matrix_data)
-        print(f"{name} 로드 완료")      
-
+    for size_key, label_dict in data.items():
+        pass
+        
 def main():
     print("--- mini npu simulator ---")
     print("\n -모드선택-")
