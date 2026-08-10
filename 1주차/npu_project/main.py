@@ -15,13 +15,32 @@ class Matrix:
         return self.data[r][c]
  
 def read_matrix(name, n=3): # 모드 1, n줄 입력 > matrix 만들어 반환
-    print(f"{name} {n}줄 {n}개 입력, 공백구분")
+    print(f"{name} {n}줄 {n}개 입력, 공백으로 구분")
     while True:
-        rows = []
+        rows = [] # 입력 받는 행
         for i in range(n):
             line = input().strip() # 공백으로 나눔
-            if len(n) != n :
-                print(f"")
+            if len(line) != n :
+                print(f"{n}개의 숫자를 공백으로 구분해 입력하세요")
+                break
+            try:
+                rows.append([float(c) for c in line])
+            except ValueError:
+                print(f"숫자만 입력해 주세요")
+                break
+        if len(rows) == n:
+            return list_to_matrix(rows)
+        
+        print(f"다시 입력해 주세요")
+
+def list_to_matrix(arr): # json 리스트를 matrix로 변경
+    n = len(arr) 
+    m = Matrix(n)
+
+    for r in range(n):
+        for c in range(n):
+            m.set(r, c, float(arr[r][c])) # 실제 환경에는 소수점 쓰니 flaot)
+    return m
 
 def mac(pattern, filt): # 같은 자리 다 곱해서 더하기
     n = pattern.n # 매트릭스.n attr
@@ -38,16 +57,16 @@ def nomalize_label(raw): # 똑같은 의미로 정규화작업
 
     return table.get(key)
 
+def decide_winner(score1, score2): # 점수 비교
+    if abs(score1 - score2) < EPS:
+        return "Draw"
+    elif score1 > score2:
+        return "Pattern 1 Win"
+    else:
+        return "Pattern 2 Win"
 
 
-def list_to_matrix(arr): # json 리스트를 matrix로 변경
-    n = len(arr) 
-    m = Matrix(n)
 
-    for r in range(n):
-        for c in range(n):
-            m.set(r, c, float(arr[r][c])) # 실제 환경에는 소수점 쓰니 flaot)
-    return m
 
 
 
