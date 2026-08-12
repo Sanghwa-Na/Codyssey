@@ -200,11 +200,138 @@ def run_mode_2(): # json 입력
         for item in failed_list:
             print(f"- {item}")
 
+''' ----------------------------'''
+
+# 보너스 문제 1차원 배열 최적화
+def flatten(matrix_2d):
+    # 2D 리스트 > 1D 리스트로 펼치기
+    flat = []
+    for row in matrix_2d:
+        for val in row:
+            flat.append(float(val))
+    return flat
+
+def mac_1d(flat_a, flat_b): # 패턴, 필터
+    # 1차원 배열로 MAC 계산 (최적화 버전)
+    total = 0.0
+    for i in range(len(flat_a)):        # 인덱스 하나로 순회
+        total += flat_a[i] * flat_b[i]
+    return total
+
+def compare_performance(matrix_2d, filter_2d, repeat=10000):
+    # 최적화 전/후 비교
+
+    print("성능 비교, 10000회 반복 측정")
+    flat_m = flatten(matrix_2d)
+    flat_f = flatten(filter_2d)
+
+    # 2D 버전 측정
+    start = time.perf_counter() # 시작 - 반복문 - 종료 시간
+    for _ in range(repeat):
+        mac(list_to_matrix(matrix_2d), list_to_matrix(filter_2d))
+    time_2d = (time.perf_counter() - start) * 1000
+
+    # 1D 버전 측정
+    start = time.perf_counter() # 시작 - 반복문 - 종료 시간
+    for _ in range(repeat):
+        mac_1d(flat_m, flat_f)
+    time_1d = (time.perf_counter() - start) * 1000
+
+    # 결과 출력
+    print(f"2D 방식: {time_2d:.3f} ms")
+    print(f"1D 방식: {time_1d:.3f} ms")
+    if time_1d > 0: # 제로 디비전 방지
+        print(f"속도 향상: {time_2d / time_1d:.2f}배")
+    return time_2d, time_1d
+
+
+# 보너스 문제 패턴 생성기
+
+def make_cross(n):
+    # N×N 십자가 패턴 생성
+    center = n // 2                    # 가운데 인덱스
+    pattern = []
+    for i in range(n):
+        row = []
+        for j in range(n):
+            if i == center or j == center:  # 중앙 행 or 중앙 열
+                row.append(1)
+            else:
+                row.append(0)
+        pattern.append(row)
+    return pattern
+
+def make_x(n):
+    # N×N X 패턴 생성
+    pattern = []
+    for i in range(n):
+        row = []
+        for j in range(n):
+            if i == j or i + j == n - 1:   # 두 대각선
+                row.append(1)
+            else:
+                row.append(0)
+        pattern.append(row)
+    return pattern
+
+def print_pattern(pattern):
+    for row in pattern:
+        print(' '.join('@' if v == 1 else '·' for v in row))
+
+def run_bonus():
+    print("\n" + "="*44)
+    print(" 보너스 과제 실행")
+    print("="*44)
+
+    # 크기 입력 (안전하게)
+    try:
+        n = int(input("패턴 크기 N을 입력하세요 (예: 5): "))
+        if n < 1:
+            print("오류: N은 1 이상이어야 합니다.")
+            return
+    except ValueError:
+        print("오류: 숫자를 입력하세요.")
+        return
+
+    print("\n#" + "-"*40)
+    print(f"# {n}×{n} 패턴 생성") # 패턴 생성
+    print("#" + "-"*40)
+
+    cross = make_cross(n)
+    x = make_x(n)
+
+    print(f"\n=== {n}×{n} Cross ===")
+    print_pattern(cross)
+    print(f"\n=== {n}×{n} X ===")
+    print_pattern(x)
+
+    print("\n#" + "-"*40)
+    print("# 2 생성 패턴으로 판정 테스트")
+    print("#" + "-"*40)
+
+    # Cross 패턴을 Cross/X 필터로 각각 채점, 생성된 패턴 제대로 작동되나 확인
+    cross_m = list_to_matrix(cross)
+    x_m = list_to_matrix(x)
+
+    sc = mac(cross_m, cross_m)   # Cross vs Cross → 최고점
+    sx = mac(cross_m, x_m)       # Cross vs X
+    print(f"[Cross 입력] Cross 점수: {sc} | X 점수: {sx}")
+    print(f"판정 결과: {decide_label(sc, sx)}")
+
+    sc2 = mac(x_m, cross_m)
+    sx2 = mac(x_m, x_m)          # X vs X → 최고점
+    print(f"[X 입력]     Cross 점수: {sc2} | X 점수: {sx2}")
+    print(f"판정 결과: {decide_label(sc2, sx2)}")
+
+    # 1D 최적화 성능 비교 
+    compare_performance(cross, cross, repeat=10000)
+
 def main():
     print("--- mini npu simulator ---")
     print("\n -모드선택-")
     print("1. 사용자입력 (3x3)")
     print("2. data.json 분석")
+    print("3. 보너스 문제: 패턴 생성기")
 
     choice = int(input("선택 : ").strip())
 
@@ -212,8 +339,10 @@ def main():
         run_mode_1()
     elif choice == 2:
         run_mode_2()
+    elif choice == 3:
+        run_bonus()
     else:
-        print("1 또는 2를 입력하세요")
+        print("1 또는 2, 3을 입력하세요")
 
 if __name__ == '__main__':
     main()
