@@ -123,16 +123,19 @@ def run_mode_2(): # json 입력
     print("-"*20)
     print("1. 필터 로드")
     print("-"*20)
-    fliters = {} #{사이즈 : {'필터 이름': 매트릭스}}
+    filters = {} #{사이즈 : {'필터 이름': 매트릭스}}
     for size_key, label_dict in data['filters'].items(): # 사이즈별 필터
         size = int(size_key.split('_')[1]) # size_3 > 3
-        fliters[size] = {} # {3 : {'Cross': 매트릭스, 'X': 매트릭스}}
+        filters[size] = {} # {3 : {'Cross': 매트릭스, 'X': 매트릭스}}
         for label, arr in label_dict.items(): # 라벨별 필터
             std = nomalize_label(label) # 라벨 정규화
-            fliters[size][std] = list_to_matrix(arr)
+            filters[size][std] = list_to_matrix(arr)
         print(f"{size}x{size} 필터 로드 완료 (cross, x )")
         
-        
+    print("-"*20)
+    print("2. 패턴 분석 (라벨 정규화 적용)")
+    print("-"*20)
+
 def main():
     print("--- mini npu simulator ---")
     print("\n -모드선택-")
