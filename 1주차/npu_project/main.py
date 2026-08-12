@@ -39,7 +39,7 @@ def list_to_matrix(arr): # json 리스트를 matrix로 변경
 
     for r in range(n):
         for c in range(n):
-            m.set(r, c, float(arr[r][c])) # 실제 환경에는 소수점 쓰니 flaot)
+            m.set(r, c, float(arr[r][c])) # 실제 환경에는 소수점 쓰니 float)
     return m
 
 def mac(pattern, filt): # 같은 자리 다 곱해서 더하기
@@ -114,7 +114,7 @@ def run_mode_1(): # 사용자입력
 
 def run_mode_2(): # json 입력
     try:
-        with open("data.json", "r") as f:
+        with open("data.json", "r") as f: # json 열기
             data = json.load(f)
     except FileNotFoundError:
         print("data.json 파일이 없습니다")
@@ -123,9 +123,15 @@ def run_mode_2(): # json 입력
     print("-"*20)
     print("1. 필터 로드")
     print("-"*20)
-    flit = {} #{필터 이름: 필터 매트릭스}
-    for size_key, label_dict in data.items():
-        pass
+    fliters = {} #{사이즈 : {'필터 이름': 매트릭스}}
+    for size_key, label_dict in data['filters'].items(): # 사이즈별 필터
+        size = int(size_key.split('_')[1]) # size_3 > 3
+        fliters[size] = {} # {3 : {'Cross': 매트릭스, 'X': 매트릭스}}
+        for label, arr in label_dict.items(): # 라벨별 필터
+            std = nomalize_label(label) # 라벨 정규화
+            fliters[size][std] = list_to_matrix(arr)
+        print(f"{size}x{size} 필터 로드 완료 (cross, x )")
+        
         
 def main():
     print("--- mini npu simulator ---")
