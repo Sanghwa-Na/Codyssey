@@ -75,14 +75,15 @@ def decide_ab(score_a, score_b): # a, b 점수 비교
         return "B"
 
 def measure(pattern, filter, repeat = 10): # 성능 측정, mac 반복 수행 후 평균값 반환
-    start = time.time()
-    for i in range(repeat):
+    start = time.time()# 시작
+    for i in range(repeat): # 진행
         mac(pattern, filter)
-    end = time.time()
+    end = time.time() # 끝
 
     return (end - start) / repeat
 
 def run_mode_1(): # 사용자입력
+    
     print("-"*20)
     print("1. 필터 입력")
     flit_a = read_matrix("필터A")
