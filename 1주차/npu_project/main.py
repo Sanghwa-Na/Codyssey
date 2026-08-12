@@ -20,11 +20,12 @@ def read_matrix(name, n=3): # 모드 1, n줄 입력 > matrix 만들어 반환
         rows = [] # 입력 받는 행
         for i in range(n):
             line = input().strip() # 공백으로 나눔
-            if len(line) != n :
+            tokens = line.split()
+            if len(tokens) != n :
                 print(f"{n}개의 숫자를 공백으로 구분해 입력하세요")
                 break
             try:
-                rows.append([float(c) for c in line])
+                rows.append([float(c) for c in tokens])
             except ValueError:
                 print(f"숫자만 입력해 주세요")
                 break
@@ -58,7 +59,7 @@ def nomalize_label(raw): # 똑같은 의미로 정규화작업
     return table.get(key)
 
 def decide_label(score_cross, score_x): # cross, x 점수 비교
-    if abs(score_cross - score_x) < EPS: # 차이가 너무 작으면 판정불가
+    if abs(score_cross - score_x) < EPS: # 차이가 너무 작으f면 판정불가
         return "UNDECIDED"
     elif score_cross > score_x:
         return "Cross"
@@ -89,7 +90,7 @@ def run_mode_1(): # 사용자입력
 
     print("-"*20)
     print("2. 패턴 입력")
-    print*("-"*20)
+    print("-"*20)
     pattern = read_matrix("패턴")
 
     print("-"*20)
@@ -121,9 +122,10 @@ def run_mode_2(): # json 입력
         return
 
     print("-"*20)
-    print("1. 필터 로드")
+    print("1. 필터 로드") # 필터 로드
     print("-"*20)
     filters = {} #{사이즈 : {'필터 이름': 매트릭스}}
+
     for size_key, label_dict in data['filters'].items(): # 사이즈별 필터
         size = int(size_key.split('_')[1]) # size_3 > 3
         filters[size] = {} # {3 : {'Cross': 매트릭스, 'X': 매트릭스}}
@@ -133,8 +135,70 @@ def run_mode_2(): # json 입력
         print(f"{size}x{size} 필터 로드 완료 (cross, x )")
         
     print("-"*20)
-    print("2. 패턴 분석 (라벨 정규화 적용)")
+    print("2. 패턴 분석 (라벨 정규화 적용)") # 패턴 분석
     print("-"*20)
+    total = passed = failed = 0
+    failed_list = []
+
+    for key, item in data['patterns'].items(): # 패턴별 분석
+        total += 1
+        size = int(key.split('_')[1]) # size_5_ > 5
+        pattern = list_to_matrix(item['input']) # 패턴 매트릭스
+        expected = nomalize_label(item['expected']) # 라벨 정규화
+
+        if size not in filters: # 필터가 없는 경우 / 크기 불일치
+            failed += 1
+            failed_list.append((f"{key} : 크기 불일치, 필터 없음"))
+            print(f"{size}x{size} 필터 없음, 분석 불가")
+            continue
+
+        # MAC 수행
+        score_cross = mac(pattern, filters[size]['Cross'])
+        score_x = mac(pattern, filters[size]['X'])
+        result = decide_label(score_cross, score_x)
+        is_pass = (result == expected)
+
+        print("-"*20) # 출력
+        print(f"{key} 분석 결과")
+        print(f"Cross score : {score_cross:.2f}, X score : {score_x:.2f}")
+        status = "PASS" if is_pass else "FAIL"
+        print(f"판정 : {result}, 예상 : {expected}, 결과 : {status}")
+
+        if result == expected: # 집계
+            passed += 1
+        else:
+            failed += 1
+            reason = "Undecided" if result == "UNDECIDED" else "판정 불일치"
+            failed_list.append((f"{key} : {reason}"))
+
+    # 성능 분석
+    print("-"*20)
+    print("-"*20)
+    print("3. 분석 결과 요약 (평균/10회)")
+    print("-"*20)
+    print(f"{'크기':<8}{'평균 시간(ms)':<16}{'연산 횟수'}")
+    print("-"*20)
+
+    for size in [3, 5, 13, 25]:
+        if size in filters:
+            mat = filters[size]['Cross']    # 실제 필터로 측정
+        else:
+            mat = Matrix(3)              # 3×3은 JSON에 없으니 더미
+        t = measure(mat, mat)
+        size_label = f"{size}×{size}"
+        print(f"{size_label:<8}{t:<16.3f}{size*size}")
+
+    # 결과 요약
+    print("-"*20)
+    print("# 4. 결과 요약")
+    print("-"*20)
+    print(f"총 테스트: {total}개")
+    print(f"통과: {passed}개")
+    print(f"실패: {failed}개")
+    if failed_list:
+        print("\n실패 케이스:")
+        for item in failed_list:
+            print(f"- {item}")
 
 def main():
     print("--- mini npu simulator ---")
@@ -142,7 +206,7 @@ def main():
     print("1. 사용자입력 (3x3)")
     print("2. data.json 분석")
 
-    choice = input("선택 : ").strip()
+    choice = int(input("선택 : ").strip())
 
     if choice == 1:
         run_mode_1()
@@ -151,5 +215,5 @@ def main():
     else:
         print("1 또는 2를 입력하세요")
 
-    if __name__ == '__main__':
-        main()
+if __name__ == '__main__':
+    main()
