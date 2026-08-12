@@ -13,19 +13,23 @@
 
 ## 2. 주요 기능
 
-1. 사용자 입력 모드 (3×3)
+### Mode 1: 사용자 입력 모드 (3×3)
    - 필터 A, 필터 B, 패턴을 콘솔에서 한 줄씩 입력
    - 두 필터의 MAC 점수를 계산
    - 평균 연산 시간(ms)을 측정
    - 판정 결과 출력: A, B, 또는 UNDECIDED
 
-2. JSON 분석 모드 (`data.json`)
+![Mode 1](mode1.png)
+
+### Mode 2: JSON 분석 모드 (`data.json`)
    - `data.json`에서 필터와 패턴을 로드
    - `size_5`, `size_13`, `size_25` 크기의 필터 처리
    - 각 패턴을 `Cross` 또는 `X`로 판정
    - `expected` 라벨과 비교하여 PASS/FAIL 출력
    - 크기별 MAC 연산 시간(ms)과 연산 횟수(N²) 표 출력
    - 전체 테스트 수, 통과 수, 실패 수, 실패 케이스 요약 출력
+
+![Mode 2](mode2.png)
 
 ## 3. 개발 환경
 
