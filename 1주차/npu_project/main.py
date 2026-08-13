@@ -47,7 +47,7 @@ def mac(pattern, filt): # 같은 자리 다 곱해서 더하기
     n = pattern.n # 매트릭스.n attr
     score = 0.0 # 합
 
-    for r in range(n):
+    for r in range(n): # 매트리스 사이즈 만큼 반복
         for c in range(n):
             score += pattern.get(r, c) * filt.get(r, c)
     return score
