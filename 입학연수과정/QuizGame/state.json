@@ -1,25 +1,10 @@
 {
-    "best_score": 7,
+    "best_score": 6,
     "history": [
         {
-            "date": "2026-08-16 18:21:38",
-            "solved": 5,
-            "score": 0
-        },
-        {
-            "date": "2026-08-16 18:22:14",
-            "solved": 5,
-            "score": 2
-        },
-        {
-            "date": "2026-08-16 18:24:10",
-            "solved": 7,
-            "score": 2
-        },
-        {
-            "date": "2026-08-16 18:26:00",
-            "solved": 8,
-            "score": 7
+            "date": "2026-08-16 19:34:12",
+            "solved": 6,
+            "score": 6
         }
     ]
 }
