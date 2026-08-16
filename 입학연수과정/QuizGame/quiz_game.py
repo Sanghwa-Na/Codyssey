@@ -124,6 +124,7 @@ class QuizGame:
         print("퀴즈를 풀어보세요!")
 
         score = 0
+        hint_penalty = 0  # 힌트 사용 시 점수 감소 비율
 
         if not self.quizzes:
             print("퀴즈가 없습니다. 퀴즈를 추가해주세요.")
@@ -154,27 +155,33 @@ class QuizGame:
                 print(f"{j}. {choice}")
 
             while True:
-                answer = self.get_input("정답 번호를 입력하세요 (1-4): ")
+                answer = self.get_input("정답 번호를 입력하세요 (1-4) / 힌트 보기 (h): ")
                 if answer is None:
                     return
+                if answer.lower() == "h":
+                    print(f"힌트: {quiz.hint if quiz.hint else '힌트가 없습니다.'}")
+                    hint_penalty += 1  # 힌트 사용 시 점수 감소
+                    #break
                 if answer.isdigit() and 1 <= int(answer) <= 4:
                     answer = int(answer)
                     break
                 else:
-                    print("잘못된 입력입니다. 1에서 4 사이의 숫자를 입력해주세요.")
+                    print("1에서 4 사이의 숫자를 입력해주세요.")
+            #if answer.lower() == "h":
+             #   continue
 
             if answer == quiz.answer:
                 print("정답입니다!")
                 score += 1
             else:
                 print(f"틀렸습니다! 정답은 {quiz.answer}번입니다.")
-
-        if score > self.best_score:
-            self.best_score = score
+        final_score = max(0, score - hint_penalty)  # 힌트 사용 시 점수 감소
+        if final_score > self.best_score:
+            self.best_score = final_score
             self.save_state()
             print(f"\n축하합니다! 새로운 최고 점수 {self.best_score}점을 기록했습니다!")
         else:
-            print(f"\n이번 점수: {score}점. 최고 점수: {self.best_score}점.")   
+            print(f"\n이번 점수: {final_score}점. 최고 점수: {self.best_score}점.")   
 
     def add_quiz(self):  # 퀴즈 추가
         print("퀴즈를 추가하세요!")
@@ -208,6 +215,26 @@ class QuizGame:
         self.save_quizzes()  # 퀴즈 저장
         print("퀴즈가 추가되었습니다.")  
 
+    def delete_quiz(self): # 퀴즈 삭제
+        print("퀴즈를 삭제하세요!")
+        if not self.quizzes:
+            print("삭제할 퀴즈가 없습니다.")
+            return
+
+        self.list_quizzes()
+        while True:
+            delete_index = self.get_input("삭제할 문제 번호를 입력하세요: ")
+            if delete_index is None:
+                print("삭제가 취소되었습니다.")
+                return
+            if delete_index.isdigit() and 1 <= int(delete_index) <= len(self.quizzes):
+                idx = int(delete_index) - 1
+                removed = self.quizzes.pop(idx)
+                self.save_quizzes()
+                print(f"'{removed.question}' 퀴즈를 삭제했습니다.")
+                return
+            print("잘못된 번호입니다.")
+
     def list_quizzes(self): # 퀴즈 목록
         if not self.quizzes:
             print("퀴즈가 없습니다. 퀴즈를 추가해주세요.")
@@ -228,10 +255,10 @@ class QuizGame:
     def run(self): # 게임 실행
         while True:
             self.show_menu()
-            choice = self.get_input("메뉴를 선택하세요 (1-5): ")
+            choice = self.get_input("메뉴를 선택하세요 (1-6): ")
             if choice is None:
                 break
-            if not choice.isdigit() or int(choice) < 1 or int(choice) > 5:
+            if not choice.isdigit() or int(choice) < 1 or int(choice) > 6:
                 print("잘못된 입력입니다. 다시 선택해주세요.")
                 continue 
 
@@ -243,7 +270,9 @@ class QuizGame:
                 self.list_quizzes()
             elif choice == "4": # 확인
                 self.check_score()
-            elif choice == "5": # 종료
+            elif choice == "5": # 삭제
+                self.delete_quiz()
+            elif choice == "6": # 종료
                 print("게임을 종료합니다.")
                 break
             else:
