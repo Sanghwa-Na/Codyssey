@@ -1,4 +1,4 @@
-import Quiz, json, os
+import Quiz, json, os, random
 
 quiz_file = "quizzes.json"
 state_file = "state.json"
@@ -136,7 +136,19 @@ class QuizGame:
         print(f"BEST SCORE : {self.best_score}")
         print("-" * 40)
 
-        for i, quiz in enumerate(self.quizzes, start=1):
+        while True:
+            count_input = self.get_input(f"몇 문제를 풀겠습니까? (1~{total_quizzes}): ")
+            if count_input is None:
+                return
+            if count_input.isdigit() and 1 <= int(count_input) <= total_quizzes:
+                quiz_count = int(count_input)
+                break
+            print("잘못된 입력입니다.")
+        quiz_pool = self.quizzes[:] # 랜덤퀴즈
+        random.shuffle(quiz_pool)
+        selected_quizzes = quiz_pool[:quiz_count]  
+        
+        for i, quiz in enumerate(selected_quizzes, start=1):
             print(f"\n문제 {i}: {quiz.question}")
             for j, choice in enumerate(quiz.choices, start=1):
                 print(f"{j}. {choice}")
@@ -189,7 +201,9 @@ class QuizGame:
             else:
                 print("잘못된 입력입니다. 1에서 4 사이의 숫자를 입력해주세요.")
 
-        new_quiz = Quiz.Quiz(question, choices, answer)
+        hint = self.get_input("힌트를 입력하세요 (선택 사항, 없으면 Enter): ")
+
+        new_quiz = Quiz.Quiz(question, choices, answer, hint)
         self.quizzes.append(new_quiz)
         self.save_quizzes()  # 퀴즈 저장
         print("퀴즈가 추가되었습니다.")  
