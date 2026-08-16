@@ -1,4 +1,5 @@
 import Quiz, json, os, random
+from datetime import datetime
 
 quiz_file = "quizzes.json"
 state_file = "state.json"
@@ -8,6 +9,7 @@ class QuizGame:
     def __init__(self):
         self.quizzes = []  # 퀴즈 목록
         self.best_score = 0  # 점수
+        self.history = []  # 점수 기록
 
         self.load_quizzes()  # 퀴즈 불러오기 quizzes.json
         self.load_state()  # 점수 불러오기 state.json
@@ -50,7 +52,8 @@ class QuizGame:
         print("3. 퀴즈 목록")
         print("4. 점수 확인")
         print("5. 퀴즈 삭제")
-        print("6. 종료")
+        print("6. 점수 히스토리")
+        print("7. 종료")
         print("=" * 40)
 
     def get_input(self, prompt): # 입력 시 오류 처리하기위해 
@@ -95,7 +98,8 @@ class QuizGame:
     def save_state(self):
         try:
             with open(state_file, 'w', encoding='utf-8') as f:
-                json.dump({"score": self.best_score}, f, ensure_ascii=False, indent=4)
+                json.dump({"best_score": self.best_score,
+                           "history": self.history}, f, ensure_ascii=False, indent=4)
             print("점수가 저장되었습니다.")
             print(f"현재 점수: {self.best_score}")
         except Exception as e:
@@ -104,18 +108,24 @@ class QuizGame:
     def load_state(self):
         if not os.path.exists(state_file):
             self.best_score = 0
+            self.history = []
             return  
         try:
             with open(state_file, 'r', encoding='utf-8') as f:
                 data = json.load(f)
-            if isinstance(data, dict) and 'score' in data:
+            """if isinstance(data, dict) and 'score' in data:
                 self.best_score = data['score']
             else:
-                raise ValueError("상태 데이터 형식이 올바르지 않습니다.")
+                raise ValueError("상태 데이터 형식이 올바르지 않습니다.") """
+            
+            self.best_score = data.get("best_score", 0)
+            self.history = data.get("history", [])
+
         except Exception as e:
             print(f"상태 로드 중 오류 발생: {e}")
             print("상태 파일이 손상되었거나 형식이 잘못되었습니다. 점수를 초기화합니다.")
             self.best_score = 0
+            self.history = []
             try:
                 self.save_state()
             except Exception as save_e:
@@ -182,7 +192,9 @@ class QuizGame:
             self.save_state()
             print(f"\n축하합니다! 새로운 최고 점수 {self.best_score}점을 기록했습니다!")
         else:
-            print(f"\n이번 점수: {final_score}점. 최고 점수: {self.best_score}점.")   
+            print(f"\n이번 점수: {final_score}점. 최고 점수: {self.best_score}점.") 
+
+        self.record_history(len(selected_quizzes), final_score) # 저장
 
     def add_quiz(self):  # 퀴즈 추가
         print("퀴즈를 추가하세요!")
@@ -236,6 +248,15 @@ class QuizGame:
                 return
             print("잘못된 번호입니다.")
 
+    def record_history(self, solved_count, final_score): # 점수 기록
+        record = {
+            "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "solved": solved_count,
+            "score": final_score
+    }
+        self.history.append(record)
+        self.save_state()
+
     def list_quizzes(self): # 퀴즈 목록
         if not self.quizzes:
             print("퀴즈가 없습니다. 퀴즈를 추가해주세요.")
@@ -246,6 +267,17 @@ class QuizGame:
         print("=" * 40)
         for i, quiz in enumerate(self.quizzes, start=1):
             print(f"{i}. {quiz.question}")
+
+    def show_history(self): # 점수 히스토리
+        if not self.history:
+            print("점수 기록이 없습니다.")
+            return
+        
+        print("=" * 40)
+        print("점수 히스토리를 확인하세요!")
+        print("=" * 40)
+        for record in self.history:
+            print(f"날짜: {record['date']}, 푼 문제 수: {record['solved']}, 점수: {record['score']}점")
             
     def check_score(self): # 점수 확인
         print("=" * 40)   
@@ -256,10 +288,10 @@ class QuizGame:
     def run(self): # 게임 실행
         while True:
             self.show_menu()
-            choice = self.get_input("메뉴를 선택하세요 (1-6): ")
+            choice = self.get_input("메뉴를 선택하세요 (1-7): ")
             if choice is None:
                 break
-            if not choice.isdigit() or int(choice) < 1 or int(choice) > 6:
+            if not choice.isdigit() or int(choice) < 1 or int(choice) > 7:
                 print("잘못된 입력입니다. 다시 선택해주세요.")
                 continue 
 
@@ -273,7 +305,9 @@ class QuizGame:
                 self.check_score()
             elif choice == "5": # 삭제
                 self.delete_quiz()
-            elif choice == "6": # 종료
+            elif choice == "6": # 점수 히스토리
+                self.show_history()
+            elif choice == "7": # 종료
                 print("게임을 종료합니다.")
                 break
             else:
