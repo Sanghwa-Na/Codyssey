@@ -154,12 +154,12 @@ core.bare=false
 core.logallrefupdates=true
 core.ignorecase=true
 core.precomposeunicode=true
-remote.origin.url=https://github.com/Sanghwa-Na/Codyssey.git
+remote.origin.url=https://github.com/email/Codyssey.git
 remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
 branch.main.remote=origin
 branch.main.merge=refs/heads/main
 branch.main.vscode-merge-base=origin/main
-user.name=Sanghwa-Na
+user.name=email
 user.email=email@gmail.com
 ```
 
@@ -598,7 +598,7 @@ email@c4r2s3 test % docker volume inspect my-web-volume
 # 바인드 마운트 실행
 
 ```
-bdn9805615@c4r2s3 Documents % docker run -it --mount type=bind,source="$(pwd)/bindmount",target=/app ubuntu
+email@c4r2s3 Documents % docker run -it --mount type=bind,source="$(pwd)/bindmount",target=/app ubuntu
 
 root@24046e6faec0:/# ls
 app  boot  etc   lib    media  opt   root  sbin  sys  usr
@@ -608,7 +608,7 @@ root@24046e6faec0:/# cat /app/test.txt
 bind moun test
 
 root@24046e6faec0:/# echo "edit from container" >> /app/test.txt
-bdn9805615@c4r2s3 Documents % cat bindmount/test.txt
+email@c4r2s3 Documents % cat bindmount/test.txt
 bind moun test
 edit from container
 
