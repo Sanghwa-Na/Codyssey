@@ -57,10 +57,16 @@ python main.py
 **스키마**:
 ```json
 {
-    "score": 5
+    "best_score": 6,
+    "history": [
+        {
+            "date": "2026-08-16 19:34:12",
+            "solved": 6,
+            "score": 6
+        }
+    ]
 }
-```
-- `score`: 달성한 최고 점수
+``` 
 
 ### quizzes.json
 **경로**: 프로젝트 루트  
