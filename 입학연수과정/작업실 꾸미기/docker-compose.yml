@@ -25,3 +25,5 @@ services:
   # 새로 추가: Redis DB
   redis:
     image: redis      # 공식 이미지 그대로 사용
+
+    

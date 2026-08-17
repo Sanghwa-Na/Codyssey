@@ -613,3 +613,40 @@ bind moun test
 edit from container
 
 ```
+
+# Docker Compose 기초
+
+<img src="compose_up.png" width="200" height="200"/>
+
+- docker run의 복잡한 옵션들을 docker-compose.yml 파일 하나에 명시합니다 
+- 문서화 효과: 인프라 구성이 문서화되어, 누구나 동일한 환경을 즉시 재현할 수 있습니다
+- 유지보수: 설정 변경 이력을 Git으로 추적할 수 있어 협업 및 관리가 매우 용이합니다.
+
+# Compose Multi Container
+
+<img src="multi_container.png" width="200" height="200"/>
+<img src="multi_con_1.png" width="200" height="200"/>
+<img src="multi_con_2.png" width="200" height="200"/>
+
+- Compose는 프로젝트별 전용 가상 네트워크를 자동으로 생성하여 컨테이너들을 격리/연결합니다
+
+- 서비스 디스커버리: IP 주소를 외울 필요 없이, docker-compose.yml에 정의한 서비스 이름(예: db, web)을 도메인 이름처럼 사용하여 서로를 찾아 통신할 수 있습니다
+
+# Compose 운영 명령어
+
+<img src="compose_up_2.png" width="200" height="200"/>
+<img src="compose_ps.png" width="200" height="200"/>
+<img src="compose_log.png" width="200" height="200"/>
+<img src="compose_down.png" width="200" height="200"/>
+
+- ps: 서비스 구동 상태 확인
+- logs: 실시간 에러 진단 및 모니터링
+- up/down: 안정적인 서비스 시작 및 깔끔한 리소스 정리(네트워크/컨테이너)
+
+# 환경 변수 활용
+
+<img src="change_port.png" width="200" height="200"/>
+
+- 애플리케이션의 로직(코드)과 외부 설정값(포트, DB 주소, API 키)을 분리합니다
+- 소스코드 내에 민감 정보를 하드코딩하지 않아 보안성이 강화됩니다
+- 동일한 이미지를 환경 변수만 바꿔가며 개발, 테스트, 운영 환경에 맞춰 즉시 배포할 수 있습니다
