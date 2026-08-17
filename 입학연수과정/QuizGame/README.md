@@ -78,3 +78,4 @@ python main.py
 - `question`: 문제
 - `choices`: 선택지 4개
 - `answer`: 정답 번호 (1~4)
+ 
